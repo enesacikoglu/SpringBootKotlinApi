@@ -15,6 +15,8 @@ class HotelController(var hotelServiceManager: HotelServiceManager) {
     @GetMapping("/{name}")
     fun findByHotelName(@PathVariable(value = "name") name: String): Hotel = this.hotelServiceManager.findByName(name)
 
-    @PostMapping
-    fun checkIn(@RequestBody checkInRequest: CheckInRequest) = hotelServiceManager.checkIn(checkInRequest)
+    @PostMapping("checkIn")
+    fun checkIn(@RequestBody checkInRequest: CheckInRequest): Boolean {
+        return hotelServiceManager.checkIn(checkInRequest)
+    }
 }

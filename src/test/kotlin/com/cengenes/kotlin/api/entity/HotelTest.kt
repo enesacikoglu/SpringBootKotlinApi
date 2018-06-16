@@ -10,6 +10,5 @@ class HotelTest {
 
     @Test
     fun it_should_chekin() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

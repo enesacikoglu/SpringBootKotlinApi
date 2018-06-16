@@ -54,4 +54,44 @@ class HotelServiceManagerTest {
         verify(hotelReadService).findByName("Hilton Hotel")
         assertThat(isCheckedIn).isFalse()
     }
+
+    @Test
+    fun it_should_get_all_hotels() {
+        //Given
+        val california = Hotel("Hotel California", 99L, 250L)
+        val istanbul = Hotel("Istanbul", 101L, 400L)
+        val newyork = Hotel("Newyork", 102L, 600L)
+
+        `when`(hotelReadService.findAll()).thenReturn(arrayListOf(california, istanbul, newyork))
+
+        //When
+        val hotels = hotelServiceManager.findAll()
+
+        //Then
+        verify(hotelReadService).findAll()
+
+        assertThat(hotels).isNotNull
+        assertThat(hotels).containsExactlyInAnyOrder(california, istanbul, newyork)
+    }
+
+    @Test
+    fun it_should_get_hotel_by_name() {
+        //Given
+        val istanbul = Hotel("Istanbul", 101L, 400L)
+
+        `when`(hotelReadService.findByName("Istanbul")).thenReturn(istanbul)
+
+        //When
+        val hotel = hotelServiceManager.findByName("Istanbul")
+
+        //Then
+        verify(hotelReadService).findByName("Istanbul")
+
+        assertThat(hotel).isNotNull
+        assertThat(hotel.name).isEqualTo("Istanbul")
+        assertThat(hotel.classification).isEqualTo(101L)
+        assertThat(hotel.totalRoomCount).isEqualTo(400L)
+        assertThat(hotel.freeRoomCount).isEqualTo(400L)
+
+    }
 }
