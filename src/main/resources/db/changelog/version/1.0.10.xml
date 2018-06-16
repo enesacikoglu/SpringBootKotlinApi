@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+        <changeSet id="2018-06-07 14:30" author="umit.unal">
+            <createSequence sequenceName="hibernate_sequence" startValue="1000" incrementBy="50"/>
+            <sql>
+                CREATE TABLE revinfo
+                (
+                    rev      SERIAL NOT NULL
+                    CONSTRAINT revinfo_pkey
+                    PRIMARY KEY,
+                    revtstmp BIGINT
+                );
+            </sql>
+        </changeSet>
+
+        <changeSet id="04.06.2018 13:34" author="umit.unal">
+            <createTable tableName="zone_aud">
+
+                <column name="id" type="int8">
+                    <constraints nullable="false"></constraints>
+                </column>
+
+                <column name="rev" type="int8">
+                    <constraints nullable="false"></constraints>
+                </column>
+
+                <column name="revtype" type="int8">
+                    <constraints nullable="true"></constraints>
+                </column>
+
+                <column name="created_date" type="datetime"/>
+                <column name="last_modified_date" type="datetime"/>
+                
+                <column name="name" type="varchar(50)"/>
+                <column name="fulfillment_type_ft" type="boolean" defaultValue="0"/>
+                <column name="fulfillment_type_st" type="boolean" defaultValue="0"/>
+                <column name="fulfillment_type_mp" type="boolean" defaultValue="0"/>
+            </createTable>
+            
+            <addPrimaryKey tableName="zone_aud" columnNames="id,rev" constraintName="zone_aud_pk"/>
+
+            <addForeignKeyConstraint baseTableName="zone_aud" baseColumnNames="rev" constraintName="zone_aud_rev_fk" referencedTableName="revinfo"
+                                     referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        </changeSet>
+
+
+    <changeSet id="06.07.2018 14:14" author="enes.acikoglu">
+        <createTable tableName="zone_rate_aud">
+
+            <column name="id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="rev" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="revtype" type="int8">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="zone_rate_aud" columnNames="id,rev" constraintName="zone_rate_aud_pk"/>
+
+        <addForeignKeyConstraint baseTableName="zone_rate_aud" baseColumnNames="rev" constraintName="zone_rate_aud_rev_fk" referencedTableName="revinfo"
+                                 referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        <addForeignKeyConstraint baseTableName="zone_rate_aud" baseColumnNames="zone_id" constraintName="fk_zone_rate_aud_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="06.07.2018 18:14" author="enes.acikoglu">
+        <createTable tableName="zone_brand_aud">
+
+            <column name="id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="rev" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="revtype" type="int8">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+
+            <column name="brand_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="is_deleted" type="boolean" defaultValue="false"/>
+
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="zone_brand_aud" columnNames="id,rev" constraintName="zone_brand_aud_pk"/>
+
+        <addForeignKeyConstraint baseTableName="zone_brand_aud" baseColumnNames="rev" constraintName="zone_brand_aud_rev_fk" referencedTableName="revinfo"
+                                 referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        <addForeignKeyConstraint baseTableName="zone_brand_aud" baseColumnNames="zone_id" constraintName="fk_zone_brand_aud_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="06.07.2018 18:16" author="enes.acikoglu">
+        <createTable tableName="zone_brand_rate_aud">
+
+            <column name="id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="rev" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="revtype" type="int8">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="brand_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="zone_brand_rate_aud" columnNames="id,rev" constraintName="zone_brand_rate_aud_pk"/>
+
+        <addForeignKeyConstraint baseTableName="zone_brand_rate_aud" baseColumnNames="rev" constraintName="zone_brand_rate_aud_rev_fk" referencedTableName="revinfo"
+                                 referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        <addForeignKeyConstraint baseTableName="zone_brand_rate_aud" baseColumnNames="zone_id" constraintName="fk_zone_brand_rate_aud_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="06.07.2018 18:18" author="enes.acikoglu">
+        <createTable tableName="zone_category_aud">
+
+            <column name="id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="rev" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="revtype" type="int8">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+
+            <column name="category_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="zone_category_aud" columnNames="id,rev" constraintName="zone_category_aud_pk"/>
+
+        <addForeignKeyConstraint baseTableName="zone_category_aud" baseColumnNames="rev" constraintName="zone_category_aud_rev_fk" referencedTableName="revinfo"
+                                 referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        <addForeignKeyConstraint baseTableName="zone_category_aud" baseColumnNames="zone_id" constraintName="fk_zone_category_aud_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="06.07.2018 18:20" author="enes.acikoglu">
+        <createTable tableName="zone_category_rate_aud">
+
+            <column name="id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="rev" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="revtype" type="int8">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="category_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+            <column name="deleted" type="boolean" defaultValue="false"/>
+
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"></constraints>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="zone_category_rate_aud" columnNames="id,rev" constraintName="zone_category_rate_aud_pk"/>
+
+        <addForeignKeyConstraint baseTableName="zone_category_rate_aud" baseColumnNames="rev" constraintName="zone_category_rate_aud_rev_fk" referencedTableName="revinfo"
+                                 referencedColumnNames="rev"></addForeignKeyConstraint>
+
+        <addForeignKeyConstraint baseTableName="zone_category_rate_aud" baseColumnNames="zone_id" constraintName="fk_zone_category_rate_aud_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <changeSet id="08.06.2018 07:55" author="enes.acikoglu">
+        <dropTable tableName="zone_category_history"/>
+        <dropSequence sequenceName="seq_zone_category_history"/>
+
+        <dropTable tableName="zone_category_rate_history"/>
+        <dropSequence sequenceName="seq_zone_category_rate_history"/>
+
+        <dropTable tableName="zone_brand_rate_history"/>
+        <dropSequence sequenceName="seq_zone_brand_rate_history"/>
+
+        <dropTable tableName="zone_rate_history"/>
+        <dropSequence sequenceName="seq_zone_rate_history"/>
+    </changeSet>
+
+</databaseChangeLog>

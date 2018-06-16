@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="2018-05-19 11:48" author="enes.acikoglu">
+        <createSequence sequenceName="seq_zone_rate" incrementBy="50"/>
+        <createTable tableName="zone_rate">
+            <column name="id" type="int8">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="zone_rate" baseColumnNames="zone_id" constraintName="fk_zone_rate_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2018-05-19 11:49" author="enes.acikoglu">
+        <createSequence sequenceName="seq_zone_rate_history" incrementBy="50"/>
+        <createTable tableName="zone_rate_history">
+            <column name="id" type="int8">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="zone_rate_history" baseColumnNames="zone_id" constraintName="fk_zone_rate_history_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2018-05-19 11:50" author="enes.acikoglu">
+        <sql>
+            INSERT INTO zone_rate (id, rate,zone_id,created_date, last_modified_date) VALUES(nextval('seq_zone'), 1.2,1, current_timestamp, current_timestamp);
+            INSERT INTO zone_rate (id, rate,zone_id,created_date, last_modified_date) VALUES(nextval('seq_zone'), 1.61,51,current_timestamp, current_timestamp);
+        </sql>
+    </changeSet>
+
+    <changeSet id="22-05-2018 18:37" author="bahadir.tasdemir">
+        <addUniqueConstraint tableName="storefront" columnNames="store_front_id"/>
+    </changeSet>
+
+</databaseChangeLog>

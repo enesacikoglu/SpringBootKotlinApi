@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="2018-05-16 17:36" author="enes.acikoglu">
+        <addColumn tableName="zone_category_history">
+            <column name="deleted" type="boolean" defaultValue="false"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2018-05-17 12:00" author="ugur.ayaz">
+        <createSequence sequenceName="seq_currency" incrementBy="50"/>
+
+        <createTable tableName="currency">
+            <column name="id" type="int4">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-05-17 12:30" author="ugur.ayaz">
+        <createSequence sequenceName="seq_currency_history" incrementBy="50"/>
+
+        <createTable tableName="currency_history">
+            <column name="id" type="int8">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="currency_id" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tcmb_rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="currency_history" baseColumnNames="currency_id"
+            constraintName="fk_currency_currency_history"
+            referencedTableName="currency"
+            referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2018-05-17 12:15" author="ugur.ayaz">
+        <sql>
+            INSERT INTO currency(id, name) VALUES (nextval('seq_currency'), 'EURO');
+            INSERT INTO currency(id, name) VALUES (nextval('seq_currency'), 'USD');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

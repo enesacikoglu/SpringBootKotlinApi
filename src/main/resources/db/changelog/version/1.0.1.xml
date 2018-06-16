@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="10-05-2018" author="bahadir.tasdemir">
+        <sql>
+            INSERT INTO zone (id, name, fulfillment_type_ft, fulfillment_type_st, fulfillment_type_mp, created_date, last_modified_date) VALUES(nextval('seq_zone'), 'Turkey', true, true, false, current_timestamp, current_timestamp);
+            INSERT INTO zone (id, name, fulfillment_type_ft, fulfillment_type_st, fulfillment_type_mp, created_date, last_modified_date) VALUES(nextval('seq_zone'), 'Germany', false, false, false, current_timestamp, current_timestamp);
+        </sql>
+    </changeSet>
+
+    <changeSet id="12-05-2018 16:35" author="ugur.ayaz">
+        <addUniqueConstraint tableName="zone" columnNames="name"/>
+    </changeSet>
+
+</databaseChangeLog>

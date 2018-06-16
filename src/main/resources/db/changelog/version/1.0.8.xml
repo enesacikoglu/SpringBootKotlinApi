@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="2018-05-23 15:25" author="bahadir.tasdemir">
+        <createSequence sequenceName="seq_zone_brand_rate" incrementBy="50"/>
+        <createTable tableName="zone_brand_rate">
+            <column name="id" type="int8">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brand_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="zone_brand_rate" baseColumnNames="zone_id" constraintName="fk_zone_brand_rate_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2018-05-23 15:26" author="bahadir.tasdemir">
+        <createSequence sequenceName="seq_zone_brand_rate_history" incrementBy="50"/>
+        <createTable tableName="zone_brand_rate_history">
+            <column name="id" type="int8">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rate" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brand_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime"/>
+            <column name="last_modified_date" type="datetime"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="zone_brand_rate_history" baseColumnNames="zone_id" constraintName="fk_zone_brand_rate_history_zone_id"
+                                 referencedTableName="zone"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2018-05-23 15:27" author="bahadir.tasdemir">
+        <sql>
+            INSERT INTO zone_brand_rate (id, rate,brand_id,zone_id,created_date, last_modified_date) VALUES(nextval('seq_zone'), 1.2,1,1,current_timestamp, current_timestamp);
+            INSERT INTO zone_brand_rate (id, rate,brand_id,zone_id,created_date, last_modified_date) VALUES(nextval('seq_zone'), 1.5,2,1,current_timestamp, current_timestamp);
+        </sql>
+    </changeSet>
+
+    <changeSet id="2018-05-24 15:06" author="bahadir.tasdemir">
+        <addColumn tableName="zone_brand_rate">
+            <column name="deleted" type="boolean" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2018-05-24 20:45" author="bahadir.tasdemir">
+        <addColumn tableName="zone_brand_rate_history">
+            <column name="deleted" type="boolean" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="28.05.2018 15:30" author="bahadir.tasdemir">
+        <sql>
+            INSERT INTO currency(id, name) VALUES (nextval('seq_currency'), 'TRY');
+        </sql>
+        <addColumn tableName="storefront">
+            <column name="currency_id" type="int4">
+                <constraints foreignKeyName="fk_storefront_currency_currency_id"  referencedTableName="currency" referencedColumnNames="id" />
+            </column>
+        </addColumn>
+        <sql>update storefront set currency_id = (select id from currency where name = 'TRY')</sql>
+        <addNotNullConstraint tableName="storefront" columnName="currency_id" columnDataType="int4" />
+    </changeSet>
+
+</databaseChangeLog>
