@@ -6,6 +6,6 @@ interface HotelReadService {
 
     fun findAll(): MutableList<Hotel>
 
-    fun findByName(): Hotel
+    fun findByName(hotelName:String): Hotel
 
 }

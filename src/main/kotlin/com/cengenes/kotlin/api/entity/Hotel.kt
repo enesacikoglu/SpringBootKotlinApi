@@ -12,6 +12,8 @@ data class Hotel(
         @Column(name = "total_room_count", nullable = false)
         var totalRoomCount: Long) {
 
+    constructor() : this("", 0L, 0L)
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long = 0
