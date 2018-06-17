@@ -1,3 +1,16 @@
 language: java
+jdk:
+  - oraclejdk8
+
+notifications:
+  email: enes.acikoglu@gmail.com
+
+# whitelist
+branches:
+  only:
+    - develop
+    - master
+    - /^issue-.*$/
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
