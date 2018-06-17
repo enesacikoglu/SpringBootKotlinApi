@@ -22,17 +22,17 @@ class HotelRepositoryTest {
     @Test
     fun it_should_find_hotel_by_name() {
         //Given
-        val hotel = Hotel("Hotel California",99L,250L)
+        val hotel = Hotel("Sultanahmet Inn Hotel",99L,250L)
         testEntityManager.persistAndFlush(hotel)
 
         //When
-        val optionalHotel = hotelRepository.findByName("Hotel California")
+        val optionalHotel = hotelRepository.findByName("Sultanahmet Inn Hotel")
 
         //Then
         assertThat(optionalHotel).isPresent
         val expectedHotel = optionalHotel.get()
         assertThat(expectedHotel.id).isNotNull()
-        assertThat(expectedHotel.name).isEqualTo("Hotel California")
+        assertThat(expectedHotel.name).isEqualTo("Sultanahmet Inn Hotel")
         assertThat(expectedHotel.classification).isEqualTo(99L)
         assertThat(expectedHotel.totalRoomCount).isEqualTo(250L)
         assertThat(expectedHotel.freeRoomCount).isEqualTo(250L)

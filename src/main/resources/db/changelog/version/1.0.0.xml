@@ -24,4 +24,10 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="17-06-2018 10:50" author="enes.acikoglu">
+        <sql>
+            INSERT INTO hotel (id, hotel_name,classification,total_room_count, free_room_count) VALUES(nextval('seq_hotel'), 'Hotel California',101, 200,200);
+            INSERT INTO hotel (id, hotel_name,classification,total_room_count, free_room_count) VALUES(nextval('seq_hotel'), 'Ns Hilton',102, 400,400);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
