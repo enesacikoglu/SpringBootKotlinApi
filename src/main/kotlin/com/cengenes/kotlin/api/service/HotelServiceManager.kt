@@ -11,11 +11,15 @@ class HotelServiceManager {
     @Autowired
     private lateinit var hotelReadService: HotelReadService
 
+    @Autowired
+    private lateinit var hotelSaveService: HotelSaveService
+
     fun checkIn(checkInRequest: CheckInRequest): Boolean {
         val hotel = hotelReadService.findByName(checkInRequest.hotelName)
         return when {
             hotel.freeRoomCount >= checkInRequest.numberOfGuest -> {
                 hotel.freeRoomCount -= checkInRequest.numberOfGuest
+                hotelSaveService.save(hotel)
                 true
             }
             else -> false

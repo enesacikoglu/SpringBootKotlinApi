@@ -38,7 +38,7 @@ class HotelControllerIT {
         assertThat(hotelResponse.body?.name).isEqualTo("Hotel California")
         assertThat(hotelResponse.body?.classification).isEqualTo(101L)
         assertThat(hotelResponse.body?.totalRoomCount).isEqualTo(200L)
-        assertThat(hotelResponse.body?.freeRoomCount).isEqualTo(200L)
+        assertThat(hotelResponse.body?.freeRoomCount).isEqualTo(1L)
     }
 
     @Test
@@ -54,7 +54,7 @@ class HotelControllerIT {
         assertThat(hotelResponse.body?.get(0)?.name).isEqualTo("Hotel California")
         assertThat(hotelResponse.body?.get(0)?.classification).isEqualTo(101L)
         assertThat(hotelResponse.body?.get(0)?.totalRoomCount).isEqualTo(200L)
-        assertThat(hotelResponse.body?.get(0)?.freeRoomCount).isEqualTo(200L)
+        assertThat(hotelResponse.body?.get(0)?.freeRoomCount).isEqualTo(1L)
         assertThat(hotelResponse.body?.get(1)?.name).isEqualTo("Ns Hilton")
         assertThat(hotelResponse.body?.get(1)?.classification).isEqualTo(102L)
         assertThat(hotelResponse.body?.get(1)?.totalRoomCount).isEqualTo(400L)

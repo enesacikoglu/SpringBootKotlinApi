@@ -2,13 +2,13 @@ package com.cengenes.kotlin.api.service
 
 import com.cengenes.kotlin.api.entity.Hotel
 import com.cengenes.kotlin.api.model.request.CheckInRequest
+import com.nhaarman.mockito_kotlin.argumentCaptor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -20,13 +20,15 @@ class HotelServiceManagerTest {
     @Mock
     private lateinit var hotelReadService: HotelReadService
 
+    @Mock
+    private lateinit var hotelSaveService: HotelSaveService
 
     @Test
-    fun it_should_checkin_when_free_room_count_available() {
+    fun it_should_checkIn_when_free_room_count_available() {
         //Given
-        val checkInRequest = CheckInRequest("Hilton Hotel", 5000L)
+        var checkInRequest = CheckInRequest("Hilton Hotel", 5000L)
 
-        val hotel = Hotel("Hilton Hotel", 104L, 10000L)
+        var hotel = Hotel("Hilton Hotel", 104L, 10000L)
 
         `when`(hotelReadService.findByName("Hilton Hotel")).thenReturn(hotel)
 
@@ -35,11 +37,20 @@ class HotelServiceManagerTest {
 
         //Then
         verify(hotelReadService).findByName("Hilton Hotel")
+        argumentCaptor<Hotel>().apply {
+            verify(hotelSaveService).save(capture())
+
+            assertThat(allValues.size).isEqualTo(1)
+            assertThat(firstValue.name).isEqualTo("Hilton Hotel")
+            assertThat(firstValue.totalRoomCount).isEqualTo(10000L)
+            assertThat(firstValue.freeRoomCount).isEqualTo(5000L)
+
+        }
         assertThat(isCheckedIn).isTrue()
     }
 
     @Test
-    fun it_should_not_checkin_when_free_room_count_is_not_available() {
+    fun it_should_not_checkIn_when_free_room_count_is_not_available() {
         //Given
         val checkInRequest = CheckInRequest("Hilton Hotel", 5000L)
 
@@ -52,6 +63,7 @@ class HotelServiceManagerTest {
 
         //Then
         verify(hotelReadService).findByName("Hilton Hotel")
+        verifyZeroInteractions(hotelSaveService)
         assertThat(isCheckedIn).isFalse()
     }
 
