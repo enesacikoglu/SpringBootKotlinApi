@@ -5,16 +5,17 @@ import com.cengenes.kotlin.api.model.request.CheckInRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.http.*
 import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -86,5 +87,23 @@ class HotelControllerIT {
         //Then
         assertThat(response).isNotNull
         assertThat(response.body).isFalse()
+    }
+
+    @Test
+    fun it_should_save_hotel() {
+        //Given
+        val istanbul = Hotel("Istanbul", 101L, 400L)
+
+        //When
+        val hotelResponse = restTemplate.postForEntity("/hotels", istanbul, Hotel::class.java)
+
+        //then
+        assertThat(hotelResponse).isNotNull
+        assertThat(hotelResponse.statusCode).isEqualTo(HttpStatus.CREATED)
+        assertThat(hotelResponse.body?.name).isEqualTo("Istanbul")
+        assertThat(hotelResponse.body?.classification).isEqualTo(101L)
+        assertThat(hotelResponse.body?.totalRoomCount).isEqualTo(400L)
+        assertThat(hotelResponse.body?.freeRoomCount).isEqualTo(400L)
+
     }
 }

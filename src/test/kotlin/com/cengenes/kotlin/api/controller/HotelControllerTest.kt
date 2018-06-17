@@ -4,9 +4,11 @@ import com.cengenes.kotlin.api.entity.Hotel
 import com.cengenes.kotlin.api.helper.JsonHelper
 import com.cengenes.kotlin.api.model.request.CheckInRequest
 import com.cengenes.kotlin.api.service.HotelServiceManager
+import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -115,5 +117,26 @@ class HotelControllerTest {
                 .andExpect(status().isOk)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect({ mvcResult -> mvcResult.equals(false) })
+    }
+
+
+    @Test
+    fun it_should_save_hotel() {
+        //Given
+        val istanbul = Hotel("Istanbul", 101L, 400L)
+
+        Mockito.`when`(hotelServiceManager.save(istanbul)).thenReturn(istanbul)
+
+        //When and Then
+        mockMvc.perform(post("/hotels")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(jsonHelper.serializeToJson(istanbul)))
+                .andDo(print())
+                .andExpect(status().isCreated)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.name").value("Istanbul"))
+                .andExpect(jsonPath("$.classification").value(101L))
+                .andExpect(jsonPath("$.totalRoomCount").value(400L))
+                .andExpect(jsonPath("$.freeRoomCount").value(400L))
     }
 }

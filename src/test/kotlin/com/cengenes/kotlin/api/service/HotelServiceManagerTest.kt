@@ -106,4 +106,25 @@ class HotelServiceManagerTest {
         assertThat(hotel.freeRoomCount).isEqualTo(400L)
 
     }
+
+
+    @Test
+    fun it_should_save_hotel() {
+        //Given
+        val istanbul = Hotel("Istanbul", 101L, 400L)
+
+        `when`(hotelSaveService.save(istanbul)).thenReturn(istanbul)
+
+        //When
+        val hotel = hotelServiceManager.save(istanbul)
+
+        //Then
+        verify(hotelSaveService).save(istanbul)
+
+        assertThat(hotel).isNotNull
+        assertThat(hotel.name).isEqualTo("Istanbul")
+        assertThat(hotel.classification).isEqualTo(101L)
+        assertThat(hotel.totalRoomCount).isEqualTo(400L)
+        assertThat(hotel.freeRoomCount).isEqualTo(400L)
+    }
 }

@@ -3,6 +3,7 @@ package com.cengenes.kotlin.api.controller
 import com.cengenes.kotlin.api.entity.Hotel
 import com.cengenes.kotlin.api.model.request.CheckInRequest
 import com.cengenes.kotlin.api.service.HotelServiceManager
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -19,5 +20,11 @@ class HotelController(var hotelServiceManager: HotelServiceManager) {
     @PostMapping("checkIn")
     fun checkIn(@Valid @RequestBody checkInRequest: CheckInRequest): Boolean {
         return hotelServiceManager.checkIn(checkInRequest)
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun save(@RequestBody hotel: Hotel): Hotel {
+        return hotelServiceManager.save(hotel)
     }
 }

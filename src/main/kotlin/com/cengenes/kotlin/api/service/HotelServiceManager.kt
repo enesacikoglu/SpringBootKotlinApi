@@ -19,12 +19,14 @@ class HotelServiceManager {
         return when {
             hotel.freeRoomCount >= checkInRequest.numberOfGuest -> {
                 hotel.freeRoomCount -= checkInRequest.numberOfGuest
-                hotelSaveService.save(hotel)
+                save(hotel)
                 true
             }
             else -> false
         }
     }
+
+    fun save(hotel: Hotel): Hotel = hotelSaveService.save(hotel)
 
     fun findAll(): MutableList<Hotel> {
         return hotelReadService.findAll()
