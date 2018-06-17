@@ -5,6 +5,9 @@ jdk:
 notifications:
   email: enes.acikoglu@gmail.com
 
+before_install:
+  - chmod +x mvnw
+
 # whitelist
 branches:
   only:
