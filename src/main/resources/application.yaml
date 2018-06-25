@@ -17,3 +17,6 @@ swagger:
   host:
     url: localhost:8080
     path:
+
+server:
+  port: 8080
