@@ -1,6 +1,4 @@
 language: java
-jdk:
-  - oraclejdk8
 
 notifications:
   email: enes.acikoglu@gmail.com
